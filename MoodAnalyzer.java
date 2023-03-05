@@ -2,26 +2,29 @@ package com.moodanalyser;
 
 public class MoodAnalyzer {
     public String message;
-    public  MoodAnalyzer(String message) {
+
+    public MoodAnalyzer(String message) {
         this.message = message;
     }
 
-    public void analysingMood() {
-        try {
-            if (message.contains("Sad"))
-                System.out.println("Sad");
-            else
-                System.out.println("Happy");
-        }
-
-        catch (NullPointerException e){
-
-            System.out.println("Happy");
-        }
+    public String analysingMood(String message) throws MoodAnalysisException {
+        this.message = message;
+        return analysingMood();
     }
 
-    public static void main(String[] args) {
-        MoodAnalyzer moodAnalyzerobj = new MoodAnalyzer("");
-        moodAnalyzerobj.analysingMood();
+    public String analysingMood() throws MoodAnalysisException {
+        try {
+            if (message.length() == 0)
+                throw new MoodAnalysisException(MoodAnalysisException.exceptionType.ENTERED_EMPTY, "Please enter Proper Mood");
+            if (message.contains("Sad"))
+                return "SAD";
+            else
+                return "HAPPY";
+        }
+        catch (NullPointerException e)
+        {
+            throw new MoodAnalysisException(MoodAnalysisException.exceptionType.ENTERED_NULL, "Please enter Proper Mood");
+        }
     }
 }
+
