@@ -1,18 +1,21 @@
 package com.moodanalyser;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 public class MoodAnalyzer {
-    public String message;
+    private String message;
 
     public MoodAnalyzer(String message) {
         this.message = message;
     }
 
-    public String analysingMood(String message) throws MoodAnalysisException {
+    public String analyseMood(String message) throws MoodAnalysisException {
         this.message = message;
-        return analysingMood();
+        return analyseMood();
     }
 
-    public String analysingMood() throws MoodAnalysisException {
+    public String analyseMood() throws MoodAnalysisException {
         try {
             if (message.length() == 0)
                 throw new MoodAnalysisException(MoodAnalysisException.exceptionType.ENTERED_EMPTY, "Please enter Proper Mood");
@@ -20,11 +23,16 @@ public class MoodAnalyzer {
                 return "SAD";
             else
                 return "HAPPY";
+        } catch (NullPointerException e) {
+            throw new MoodAnalysisException(MoodAnalysisException.exceptionType.ENTERED_NULL, e);
         }
-        catch (NullPointerException e)
-        {
-            throw new MoodAnalysisException(MoodAnalysisException.exceptionType.ENTERED_NULL, "Please enter Proper Mood");
-        }
+    }
+
+    @Override
+    public boolean equals(Object another)
+    {
+        MoodAnalyzer mood = (MoodAnalyzer) another;
+        return this.message.equals(mood);
     }
 }
 
